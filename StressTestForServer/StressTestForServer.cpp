@@ -52,6 +52,8 @@ int main()
 
         std::cout << "Connected to the server!" << std::endl;
 
+        Sockets.push_back(&client_socket);
+
         int64_t Numbers = std::rand();
         std::string message = std::to_string(Numbers);
 
@@ -68,11 +70,9 @@ int main()
 
             if (bytes_rec > 0)
             {
-                std::cout << atoi(buffer);
+                std::cout << atoi(buffer) << std::endl;
             }
         }
-
-        Sleep(50);
     }
 
     /*closesocket(client_socket);
