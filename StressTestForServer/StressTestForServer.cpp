@@ -14,7 +14,7 @@ int main()
 
     while (true)
     {
-        for (int i = 0;i<50 ;i++)
+        for (int i = 0;i<300 ;i++)
         {
             WSADATA wsaData;
             if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0)
@@ -52,25 +52,36 @@ int main()
             SOCKET* NewSock = new SOCKET(client_socket);
 
             Sockets.push_back(NewSock);
+        }
 
+        for (SOCKET* Sok : Sockets)
+        {
             int64_t Numbers = std::rand();
             std::string message = std::to_string(Numbers);
 
-            send(*NewSock, (message.append("S")).c_str(), strlen(message.c_str()), 0);
-        }
+            send(*Sok, (message.append("S")).c_str(), strlen(message.c_str()), 0);
 
-        for (auto& Sok : Sockets)
-        {
             char buffer[1024];
             int bytes_rec = recv(*Sok, buffer, sizeof(buffer), 0);
 
+            std::string Rec = buffer;
+            Rec.resize(bytes_rec);
+
             if (bytes_rec > 0)
             {
-                std::cout << atoi(buffer) << std::endl;
+                std::cout << Rec << std::endl;
                 closesocket(*Sok);
                 WSACleanup();
             }
         }
+
+        for (SOCKET* Sok : Sockets)
+        {
+            delete Sok;
+            Sok = nullptr;
+        }
+
+        Sockets.clear();
     }
 
     /*closesocket(client_socket);
