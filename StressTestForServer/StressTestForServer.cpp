@@ -47,8 +47,6 @@ int main()
                 return -1;
             }
 
-            //std::cout << "Connected to the server!" << std::endl;
-
             SOCKET* NewSock = new SOCKET(client_socket);
 
             Sockets.push_back(NewSock);
@@ -84,7 +82,5 @@ int main()
         Sockets.clear();
     }
 
-    /*closesocket(client_socket);
-    WSACleanup();*/
     return 0;
 }
